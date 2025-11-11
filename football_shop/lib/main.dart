@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'add_product_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -75,6 +76,32 @@ class _FootballShopHomePageState extends State<FootballShopHomePage> {
       appBar: AppBar(
         title: Text('Football Shop'),
       ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            const DrawerHeader(
+              child: Text('Football Shop Menu'),
+            ),
+            ListTile(
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.pop(context);  // Close drawer
+                // Already on home, so no navigation needed
+              },
+            ),
+            ListTile(
+              title: const Text('Add Product'),
+              onTap: () {
+                Navigator.pop(context);  // Close drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddProductPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -123,9 +150,9 @@ class _FootballShopHomePageState extends State<FootballShopHomePage> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
               onPressed: () {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('You have pressed the Create Product button')),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddProductPage()),
                 );
               },
               child: const Row(
@@ -133,7 +160,7 @@ class _FootballShopHomePageState extends State<FootballShopHomePage> {
                 children: [
                   Icon(Icons.add),
                   SizedBox(width: 8),
-                  Text('Create Product'),
+                  Text('Add Product'),
                 ],
               ),
             ),

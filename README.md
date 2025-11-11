@@ -45,3 +45,15 @@ The above snippet has a widget tree starting from MyApp, which contains Material
 - **Hot Reload vs Hot Restart**:
   - `Hot Reload`: Quickly updates the UI without losing the current state of the app. It injects updated source code files into the running Dart VM.
   - `Hot Restart`: Restarts the entire app, losing the current state. Runs main() again.
+
+## Assignment 8:
+- Navigator push vs pushReplacement:
+  - `Navigator.push`: Adds a new route on top of the current stack, allowing users to navigate back to the previous screen
+  - `Navigator.pushReplacement`: Replaces the current route with a new one, preventing users from navigating back to the previous screen
+  In the context of our app, we use `Navigator.push` to navigate to the Add Product page so that users can return to the product list after adding a product
+
+- Hierarchy widget is used in our app to structure the UI components. For example, the `Scaffold` widget is the parent of `AppBar` and `ListView`.
+
+- In the context of UI design, the advantages of using layout widget like `padding`, etc is to provide spacing and alignment to the UI components, enhancing the visual appeal and usability of the app
+
+- We set up the color theme in our app so that it provides a consistent look and feel across the app.
