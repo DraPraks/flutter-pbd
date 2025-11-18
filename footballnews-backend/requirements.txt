@@ -1,0 +1,7 @@
+django
+gunicorn
+whitenoise
+requests
+urllib3
+python-dotenv
+django-cors-headers

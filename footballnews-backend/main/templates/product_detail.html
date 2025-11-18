@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} - {{ app_name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'main/css/toasts.css' %}" rel="stylesheet">
+    <style>
+        .product-image {
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .product-card {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .price-tag {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'main:home' %}">{{ app_name }}</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'main:home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'main:show_main' %}">Products</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <span class="navbar-text me-3">Hello, {{ user.username }}!</span>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link btn btn-link px-0" data-logout-button>Logout</button>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'main:login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'main:register' %}">Register</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card product-card">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h1 class="card-title mb-0">{{ product.name }}</h1>
+                            {% if product.is_featured %}
+                            <span class="badge bg-warning fs-6">Featured</span>
+                            {% endif %}
+                        </div>
+                        <div class="price-tag mb-3">IDR {{ product.price|floatformat:0 }}</div>
+                        <img src="{{ product.thumbnail }}" class="img-fluid product-image mb-4" alt="{{ product.name }}" onerror="this.src='https://via.placeholder.com/800x400?text=No+Image';">
+                        <p class="card-text lead">{{ product.description }}</p>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <p class="mb-1"><strong>Category:</strong> <span class="badge bg-secondary">{{ product.get_category_display }}</span></p>
+                            </div>
+                            <div class="col-md-6 text-md-end">
+                                <p class="mb-1 text-muted small">Created: {{ product.created_at|date:"F j, Y \a\t g:i A" }}</p>
+                                <p class="mb-0 text-muted small">Updated: {{ product.updated_at|date:"F j, Y \a\t g:i A" }}</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <a href="{% url 'main:show_main' %}" class="btn btn-outline-secondary me-2">← Back to Products</a>
+                            {% if user.is_authenticated and product.user == user %}
+                            <a href="{% url 'main:show_main' %}#product-grid" class="btn btn-warning">Manage in Dashboard</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="toast-container" class="toast-stack" aria-live="polite" aria-atomic="true"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="{% static 'main/js/toasts.js' %}" defer></script>
+    <script src="{% static 'main/js/auth.js' %}" defer></script>
+</body>
+</html>
